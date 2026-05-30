@@ -14,6 +14,7 @@
 |------|------|------|
 | cv.md | `cv.md` (project root) | ALWAYS |
 | article-digest.md | `article-digest.md` (if exists) | ALWAYS (detailed proof points) |
+| publications.md | `publications.md` (if exists) | When `research_mode=true` — authoritative publication list with tags for adaptive selection |
 | profile.yml | `config/profile.yml` | ALWAYS (candidate identity and targets) |
 | _profile.md | `modes/_profile.md` | ALWAYS (user archetypes, narrative, negotiation) |
 | writing-samples/ | `writing-samples/` | When generating candidate-facing text — check `_profile.md` for cached `## Writing Style` first; only scan files if absent |
