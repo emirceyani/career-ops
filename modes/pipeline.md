@@ -2,14 +2,22 @@
 
 Process job URLs stored in `data/pipeline.md`. The user adds URLs at any time and then executes `/career-ops pipeline` to process them all.
 
+## Parameters
+
+| Parameter | Example | Description |
+|-----------|---------|-------------|
+| `--max N` | `--max 15` | Process only the first N pending items in this run. Items are taken in order (top of the Pending list first). Items beyond the cap remain as `- [ ]` for the next run. |
+
+Example: `/career-ops pipeline --max 15`
+
 ## Workflow
 
-1. **Read** `data/pipeline.md` → search for `- [ ]` items in the "Pending" section
+1. **Read** `data/pipeline.md` → search for `- [ ]` items in the "Pending" section. If `--max N` was passed, take only the first N items from the list; leave the rest untouched for a future run.
 2. **For each pending URL**:
    a. Calculate the next sequential `REPORT_NUM` (read `reports/`, take the highest number + 1)
    b. **Extract JD** using Playwright (browser_navigate + browser_snapshot) → WebFetch → WebSearch
    c. If the URL is not accessible → mark as `- [!]` with a note and continue
-   d. **Execute full auto-pipeline**: Evaluation A-F → Report .md → PDF (if score >= 3.0) → Tracker
+   d. **Execute full auto-pipeline**: Evaluation A-F → Report .md → PDF (if score >= 3.8) → Tracker. When invoked from autonomous mode (cron/launchd), additionally: for any report with score >= 4.0, draft a LinkedIn recruiter outreach to `outreach/{company-slug}-{YYYY-MM-DD}.md` and, if the JD has an application form, draft answers to `apply-drafts/{company-slug}-{YYYY-MM-DD}.md`. **Never** submit forms or send messages.
    e. **Move from "Pending" to "Processed"**: `- [x] #NNN | URL | Company | Role | Score/5 | PDF ✅/❌`
 3. **If there are 3+ pending URLs**, launch agents in parallel (Agent tool with `run_in_background`) to maximize speed.
 4. **At the end**, show summary table:
@@ -47,6 +55,10 @@ Process job URLs stored in `data/pipeline.md`. The user adds URLs at any time an
 1. List all files in `reports/`
 2. Extract the number from the prefix (e.g., `142-medispend...` → 142)
 3. New number = maximum found + 1
+
+## Running autonomously
+
+When invoked by launchd via `scripts/automation/run-pipeline.sh`, this mode receives `--max 15` and runs in headless mode (`claude -p`). In headless mode Playwright is unavailable; JD extraction falls back to WebFetch and reports are tagged `**Verification:** unconfirmed (batch mode)`. Outreach + apply drafts are generated as side effects for reports scoring >= 4.0. Backpressure: if `pipeline.md` has more than 50 pending URLs, the wrapper skips the run.
 
 ## Source synchronization
 

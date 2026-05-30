@@ -18,6 +18,14 @@ Agent(
 )
 ```
 
+## Parámetros de invocación
+
+| Parámetro | Ejemplo | Descripción |
+|-----------|---------|-------------|
+| `--max N` | `--max 15` | Cap de ofertas nuevas añadidas a `pipeline.md`. Las candidatas se ranquean por relevancia antes del cap (ver paso 6c). Sin este parámetro, se añaden todas las que pasen los filtros. |
+
+Ejemplo: `/career-ops scan --max 15`
+
 ## Configuración
 
 Leer `portals.yml` que contiene:
@@ -212,6 +220,14 @@ Los niveles son aditivos — se ejecutan en orden, los resultados se mezclan y d
    - Todas las coincidencias son case-insensitive substring
    - La ubicación se persiste como 7ª columna en `scan-history.tsv` para auditoría posterior
 
+6c. **Ranquear y aplicar cap `--max N`** (solo si se pasó `--max`):
+   Asignar a cada candidata una puntuación de relevancia basada en su título (case-insensitive):
+   - +2 por cada keyword de `seniority_boost` presente en el título
+   - +1 por cada keyword adicional de `positive` presente en el título (más allá del mínimo de 1 requerido)
+   - En caso de empate, mantener el orden de descubrimiento: Nivel 0 > Nivel 1 > Nivel 2 > Nivel 3
+   Ordenar descendiente por puntuación y conservar solo las primeras N.
+   Registrar las descartadas por cap en `scan-history.tsv` con status `skipped_cap`.
+
 7. **Deduplicar** contra 3 fuentes:
    - `scan-history.tsv` → URL exacta ya vista
    - `applications.md` → empresa + rol normalizado ya evaluado
@@ -282,6 +298,7 @@ Ofertas encontradas: N total
 Filtradas por título: N relevantes
 Duplicadas: N (ya evaluadas o en pipeline)
 Expiradas descartadas: N (links muertos, Nivel 3)
+Descartadas por cap (--max): N  ← solo si se usó --max
 Nuevas añadidas a pipeline.md: N
 
   + {company} | {title} | {query_name}
