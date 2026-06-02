@@ -235,6 +235,16 @@
     color: #111;
   }
 
+  .project-title a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dotted hsl(270,70%,45%);
+  }
+
+  .project-title a:hover {
+    border-bottom-style: solid;
+  }
+
   .project-badge {
     font-size: 9px;
     font-weight: 400;
@@ -339,6 +349,61 @@
     text-align: right;
   }
 
+  /* === HONORS & AWARDS (research_mode) === */
+  .honor-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 3px;
+  }
+
+  .honor-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #111;
+  }
+
+  .honor-desc {
+    font-weight: 400;
+    font-style: italic;
+    color: #444;
+  }
+
+  .honor-year {
+    font-size: 9.5px;
+    color: #444;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  /* === INVITED TALKS (research_mode) === */
+  .talk-list {
+    padding-left: 14px;
+    margin: 0;
+    list-style-type: none;
+  }
+
+  .talk-list li {
+    font-size: 10px;
+    line-height: 1.46;
+    color: #111;
+    margin-bottom: 2px;
+    position: relative;
+  }
+
+  .talk-list li::before {
+    content: "\25B8";
+    position: absolute;
+    left: -14px;
+    color: hsl(187, 74%, 40%);
+    font-size: 9px;
+  }
+
+  .talk-title {
+    font-weight: 700;
+  }
+
   /* === SKILLS === */
   .skills-grid {
     display: flex;
@@ -439,8 +504,14 @@
     {{CERTIFICATIONS}}
   </div>
 
+  <!-- HONORS & AWARDS (academic/research JDs only — omit this block for industry CVs) -->
+  {{HONORS_SECTION}}
+
   <!-- PUBLICATIONS (academic/research JDs only — omit this block for industry CVs) -->
   {{PUBLICATIONS_SECTION}}
+
+  <!-- INVITED TALKS & SELECTED PRESENTATIONS (academic/research JDs only — omit this block for industry CVs) -->
+  {{TALKS_SECTION}}
 
   <!-- SKILLS -->
   <div class="section avoid-break">

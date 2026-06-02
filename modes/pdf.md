@@ -12,7 +12,7 @@
 6. Detect role archetype → adapt framing
    - Also detect **academic/research JD**: flag as `research_mode=true` if the JD mentions any of: PhD required, postdoc, research scientist, research engineer, faculty, publications required, citation record, h-index, peer-reviewed, academic lab, university, or lists venues (NeurIPS/ICML/ICLR/CVPR/etc.)
 7. Rewrite Professional Summary by injecting JD keywords + exit narrative bridge ("Built and sold a business. Now applying systems thinking to [JD domain].")
-8. Select top 3-4 most relevant projects for the job
+8. Select top 3-4 most relevant projects for the job (read `projects.md` for the canonical list with GitHub links)
 9. Reorder experience bullets by JD relevance
 10. Build competency grid from JD requirements (6-8 keyword phrases)
 11. Inject keywords naturally into existing achievements (NEVER invent)
@@ -51,8 +51,37 @@
 4. Work Experience (reverse chronological)
 5. Projects (top 3-4 most relevant)
 6. Education & Certifications
-7. Publications (**research_mode only** — see below)
-8. Skills (languages + technical)
+7. Honors & Awards (**research_mode only** — see below)
+8. Publications (**research_mode only** — see below)
+9. Invited Talks & Selected Presentations (**research_mode only** — see below)
+10. Skills (languages + technical)
+
+## Projects section
+
+Read `projects.md` for the full project list with GitHub links, paper URLs, tags, and descriptions.
+
+**Selection:** Pick the top 3-4 projects whose `Tags` and `Best for JDs mentioning` fields best match the JD keywords. When `research_mode=true`, prefer projects with peer-reviewed publications attached.
+
+**Rendering rule:** If a project has a `GitHub:` URL in `projects.md`, wrap the title text in an anchor tag. If no GitHub URL exists, render plain bold text.
+
+```html
+<div class="project">
+  <span class="project-title">
+    <a href="https://github.com/OWNER/REPO" target="_blank">Project Title — Short subtitle</a>
+    <span class="project-badge">Venue · Badge</span>
+  </span>
+  <div class="project-desc">One- or two-line tailored description.</div>
+  <div class="project-tech">Python · PyTorch · relevant-tech</div>
+</div>
+```
+
+When no GitHub URL is available, omit the `<a>` tag:
+
+```html
+<span class="project-title">Project Title — Short subtitle<span class="project-badge">Working Paper</span></span>
+```
+
+The `.project-title a` CSS (color: inherit; border-bottom: 1px dotted purple) is already in the template — no extra style needed.
 
 ## Publications section (research_mode=true only)
 
@@ -113,6 +142,62 @@ Split by type: journals first, then conference/workshop, then working papers.
 
 When `research_mode=false`, set `{{PUBLICATIONS_SECTION}}` to an empty string `""` so the block disappears entirely.
 
+## Honors & Awards section (research_mode=true only)
+
+When `research_mode=false`, set `{{HONORS_SECTION}}` to an empty string `""` so the block disappears entirely (industry CVs lead with experience, not awards).
+
+When `research_mode=true`, populate `{{HONORS_SECTION}}` from the `# Honors & Awards` section of `cv.md`, ranked by **prestige + recency** (no per-JD topical filtering):
+
+1. **Named fellowships / competitive awards first** — e.g. Qualcomm Innovation Fellowship (Finalist), then service/recognition awards (Top Reviewer), then travel/accommodation grants last.
+2. **Within the same tier, most recent first.**
+
+Start with the **top 3**, then add more (in ranked order) to fill the page — see "Fill the page" below. The 2-page trim governs the upper bound; drop from the bottom (travel grants first).
+
+### Render HTML
+
+One flush row per award: the award name is **bold**, the org/qualifier is folded into the same line as an *italic* `— description` suffix (never a separate middle column), and the year is right-aligned. Do **not** repeat the org in a floating column when it is already in the title (e.g. "SIAM Travel Award" already says SIAM).
+
+```html
+<div class="section avoid-break">
+  <div class="section-title">Honors &amp; Awards</div>
+  <div class="honor-row">
+    <span class="honor-title">Award name <span class="honor-desc">— short qualifier</span></span>
+    <span class="honor-year">Year</span>
+  </div>
+</div>
+```
+
+The `.honor-row` / `.honor-title` / `.honor-desc` / `.honor-year` classes use a flex row (`justify-content: space-between`); add them to the template `<style>` if not already present.
+
+## Invited Talks & Selected Presentations (research_mode=true only)
+
+When `research_mode=false`, set `{{TALKS_SECTION}}` to an empty string `""` so the block disappears entirely.
+
+When `research_mode=true`, populate `{{TALKS_SECTION}}` from the `# Invited Talks & Poster Presentations` section of `cv.md`, ranked by **prestige + recency**:
+
+1. **Invited talks at named institutions/groups first** — e.g. Stanford STAI Lab, Caltech (Anandkumar AI+Science group), Qualcomm Innovation Fellowship Finals.
+2. **Top-venue main-track presentations next** — e.g. NeurIPS main track posters/talks.
+3. **Workshop posters and minor venues last** — these are the first to cut when trimming.
+
+Group by talk title; collapse the venues for one title into a single italic line (`Venue A (Date); Venue B (Date)`). When space is tight, keep only the **highest-prestige venues per title** and drop the rest.
+
+**Do not prefix venues with "Invited talk"** — the section title already says "Invited Talks", so repeating it on every line is redundant. Only label a venue when it is *not* an invited talk and the type matters (e.g. `Oral, SIAM SDM'25`; `Poster, AAAI'22`). For a named-institution invited talk, just give the venue (e.g. `STAI Lab, Stanford University (Apr 2026)`).
+
+### Render HTML
+
+Use a compact `talk-list` (single-line, triangle bullet) rather than the numbered `pub-list`:
+
+```html
+<div class="section avoid-break">
+  <div class="section-title">Invited Talks &amp; Selected Presentations</div>
+  <ul class="talk-list">
+    <li><span class="talk-title">Talk title.</span> <em>Named Institution (Month Year); Oral, Venue'YY (Date).</em></li>
+  </ul>
+</div>
+```
+
+The `.talk-list` / `.talk-title` classes (a non-numbered list with a `▸` marker) go in the template `<style>` if not already present.
+
 ## 2-page limit (all CVs)
 
 **Target: 2 pages maximum.** 3+ pages is a hard failure for industry and research roles alike.
@@ -120,12 +205,24 @@ When `research_mode=false`, set `{{PUBLICATIONS_SECTION}}` to an empty string `"
 If content would overflow 2 pages, trim in this priority order:
 1. Cut Turkcell / earliest job to 1 bullet (or remove entirely if space is critical)
 2. Reduce projects to **top 3** most JD-relevant; keep descriptions to 1–2 lines max, remove the tech stack line
-3. Cut honors to top 3
-4. Trim experience bullets: merge related points, cut anything not directly JD-relevant
-5. Summary: max 3 lines
-6. Do NOT cut publications or education when `research_mode=true`
+3. Cut Invited Talks: keep only invited talks at named institutions + top-venue (NeurIPS main) items; drop workshop posters entirely. Remove the section if nothing survives.
+4. Cut Honors to top 3 (then top 1 — named fellowships only — if still overflowing)
+5. Trim experience bullets: merge related points, cut anything not directly JD-relevant
+6. Summary: max 3 lines
+7. Do NOT cut publications or education when `research_mode=true`
 
 After generating the HTML, run the PDF and report page count. If > 2 pages, apply the above cuts and regenerate.
+
+### Fill the page (research_mode=true)
+
+A research CV that stops halfway down page 2 looks thin. If the second page is under-filled, **add real content from `cv.md`** (in this order) until page 2 is well-filled but not overflowing — never pad with fluff:
+
+1. Expand **Honors & Awards** beyond the top 3 down the ranked list (fellowships → grants → graduation awards).
+2. Expand **Invited Talks** to the full grouped list, including the lower-prestige venues you would otherwise trim.
+3. Add a **Professional Service** section (Program Committee, Peer Reviewer — conferences/journals) from `cv.md`.
+4. Add **Teaching Experience** if still short.
+
+The 2-page cap is the only hard limit: fill toward it, then stop. Prefer a full 2 pages over a sparse 1.5.
 
 ## Keyword injection strategy (ethical, truth-based)
 
@@ -169,7 +266,9 @@ Use the template in `cv-template.html`. Replace the `{{...}}` placeholders with 
 | `{{CERTIFICATIONS}}` | Certifications HTML |
 | `{{SECTION_SKILLS}}` | Skills |
 | `{{SKILLS}}` | Skills HTML |
+| `{{HONORS_SECTION}}` | Honors & Awards block HTML (academic/research JDs only — set to `""` for all other JDs) |
 | `{{PUBLICATIONS_SECTION}}` | Full publications block HTML (academic/research JDs only — set to `""` for all other JDs) |
+| `{{TALKS_SECTION}}` | Invited Talks & Selected Presentations block HTML (academic/research JDs only — set to `""` for all other JDs) |
 
 ## Canva CV Generation (optional)
 

@@ -383,9 +383,26 @@ if (newLines.length > 0) {
 
 // Write back
 if (!DRY_RUN) {
+  // Create backup before writing so we can restore on validation failure
+  const BACKUP_FILE = APPS_FILE + '.bak';
+  const originalContent = readFileSync(APPS_FILE, 'utf-8');
+  writeFileSync(BACKUP_FILE, originalContent);
+
   writeFileSync(APPS_FILE, appLines.join('\n'));
 
-  // Move processed files to merged/
+  // Validate the written file; restore backup if tests fail
+  let validationPassed = true;
+  try {
+    execFileSync('python3', [join(CAREER_OPS, 'tests/tracker_validator.py'), CAREER_OPS], {
+      stdio: 'inherit',
+    });
+  } catch (_) {
+    console.error('\n❌ Validation failed — restoring backup. No TSVs were merged.');
+    writeFileSync(APPS_FILE, originalContent);
+    process.exit(1);
+  }
+
+  // Move processed files to merged/ only after validation passes
   if (!existsSync(MERGED_DIR)) mkdirSync(MERGED_DIR, { recursive: true });
   for (const file of tsvFiles) {
     renameSync(join(ADDITIONS_DIR, file), join(MERGED_DIR, file));

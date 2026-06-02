@@ -368,3 +368,9 @@ Write one TSV file per evaluation to `batch/tracker-additions/{num}-{company-slu
 - No extra text (use the notes column)
 @AGENTS.md
 <!-- Add anything Claude Code specific that other agents don't need -->
+
+
+Add under a ## Job Posting Fetching section near the top of the career-ops workflow notes.\n\nWhen fetching a job posting, always require a canonical public job URL (not a LinkedIn feed/personalized URL). If the page is a JavaScript SPA (Ashby, Meta, Unconventional AI, Airtable forms), try the underlying GraphQL/API endpoint or a web search first, and only then ask the user to paste the JD text.
+Add under a ## Tracker Hygiene section.\n\nBefore creating a new evaluation file or tracker entry, check whether the role is already tracked (search the tracker by company/title) to avoid duplicate reports and overwritten entries.
+Add under a ## Evaluation Scoring section.\n\nScore fit using the user's strongest research resume PDF, not cv.md, and interpret role scope broadly (e.g., 'structured/relational', not just 'tabular') before assigning a score.
+Add under a ## Tracker Hygiene / Concurrency section.\n\nNever run parallel Bash calls that read or mutate the tracker/TSV concurrently; perform tracker reads and merges sequentially and validate tab separators after each write.

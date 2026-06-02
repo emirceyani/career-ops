@@ -226,6 +226,24 @@ Default modes are in `modes/` (English). Additional language-specific modes are 
 
 ---
 
+## Job Posting Fetching
+
+When fetching a job posting, always require a canonical public job URL (not a LinkedIn feed/personalized URL). If the page is a JavaScript SPA (Ashby, Meta, Unconventional AI, Airtable forms), try the underlying GraphQL/API endpoint or a web search first, and only then ask the user to paste the JD text.
+
+## Evaluation Scoring
+
+Score fit using the user's strongest research resume PDF, not cv.md, and interpret role scope broadly (e.g., 'structured/relational', not just 'tabular') before assigning a score.
+
+## Tracker Hygiene
+
+Before creating a new evaluation file or tracker entry, check whether the role is already tracked (search the tracker by company/title) to avoid duplicate reports and overwritten entries.
+
+### Concurrency
+
+Never run parallel Bash calls that read or mutate the tracker/TSV concurrently; perform tracker reads and merges sequentially and validate tab separators after each write.
+
+---
+
 ## Ethical Use -- CRITICAL
 
 **This system is designed for quality, not quantity.** The goal is to help the user find and apply to roles where there is a genuine match -- not to spam companies with mass applications.

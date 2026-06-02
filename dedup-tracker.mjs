@@ -10,6 +10,7 @@
  */
 
 import { readFileSync, writeFileSync, copyFileSync, existsSync, mkdirSync } from 'fs';
+import { execFileSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -222,9 +223,21 @@ for (const idx of sortedRemoveIndices) {
 console.log(`\n📊 ${removed} duplicates removed`);
 
 if (!DRY_RUN && removed > 0) {
+  const originalContent = readFileSync(APPS_FILE, 'utf-8');
   copyFileSync(APPS_FILE, APPS_FILE + '.bak');
   writeFileSync(APPS_FILE, lines.join('\n'));
-  console.log('✅ Written to applications.md (backup: applications.md.bak)');
+
+  // Validate the written file; restore backup if validation fails
+  try {
+    execFileSync('python3', [join(CAREER_OPS, 'tests/tracker_validator.py'), CAREER_OPS], {
+      stdio: 'inherit',
+    });
+    console.log('✅ Written to applications.md (backup: applications.md.bak)');
+  } catch (_) {
+    console.error('\n❌ Validation failed — restoring backup. Dedup changes were reverted.');
+    writeFileSync(APPS_FILE, originalContent);
+    process.exit(1);
+  }
 } else if (DRY_RUN) {
   console.log('(dry-run — no changes written)');
 } else {
