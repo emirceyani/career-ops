@@ -142,16 +142,18 @@ Split by type: journals first, then conference/workshop, then working papers.
 
 When `research_mode=false`, set `{{PUBLICATIONS_SECTION}}` to an empty string `""` so the block disappears entirely.
 
-## Honors & Awards section (research_mode=true only)
+## Honors & Awards section
 
-When `research_mode=false`, set `{{HONORS_SECTION}}` to an empty string `""` so the block disappears entirely (industry CVs lead with experience, not awards).
+When `research_mode=false` **and using `cv-template.html`**, set `{{HONORS_SECTION}}` to an empty string `""` so the block disappears entirely (industry CVs lead with experience, not awards).
 
-When `research_mode=true`, populate `{{HONORS_SECTION}}` from the `# Honors & Awards` section of `cv.md`, ranked by **prestige + recency** (no per-JD topical filtering):
+**Exception — compact template (`cv-template-compact.html`):** Always populate `{{HONORS_SECTION}}` regardless of `research_mode`. The 1-page compact layout has room for awards after the experience section.
+
+When populating, read from the `# Honors & Awards` section of `cv.md`, ranked by **prestige + recency** (no per-JD topical filtering):
 
 1. **Named fellowships / competitive awards first** — e.g. Qualcomm Innovation Fellowship (Finalist), then service/recognition awards (Top Reviewer), then travel/accommodation grants last.
 2. **Within the same tier, most recent first.**
 
-Start with the **top 3**, then add more (in ranked order) to fill the page — see "Fill the page" below. The 2-page trim governs the upper bound; drop from the bottom (travel grants first).
+Include **all awards** from `cv.md` in ranked order. Only trim from the bottom (travel grants first) if the page is overflowing.
 
 ### Render HTML
 
@@ -169,9 +171,11 @@ One flush row per award: the award name is **bold**, the org/qualifier is folded
 
 The `.honor-row` / `.honor-title` / `.honor-desc` / `.honor-year` classes use a flex row (`justify-content: space-between`); add them to the template `<style>` if not already present.
 
-## Invited Talks & Selected Presentations (research_mode=true only)
+## Invited Talks & Selected Presentations
 
-When `research_mode=false`, set `{{TALKS_SECTION}}` to an empty string `""` so the block disappears entirely.
+When `research_mode=false` **and using `cv-template.html`**, set `{{TALKS_SECTION}}` to an empty string `""` so the block disappears entirely.
+
+**Exception — compact template (`cv-template-compact.html`):** Always populate `{{TALKS_SECTION}}` regardless of `research_mode`. The 1-page compact layout has room for talks and they add signal for any role.
 
 When `research_mode=true`, populate `{{TALKS_SECTION}}` from the `# Invited Talks & Poster Presentations` section of `cv.md`, ranked by **prestige + recency**:
 

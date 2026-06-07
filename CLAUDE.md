@@ -370,7 +370,21 @@ Write one TSV file per evaluation to `batch/tracker-additions/{num}-{company-slu
 <!-- Add anything Claude Code specific that other agents don't need -->
 
 
-Add under a ## Job Posting Fetching section near the top of the career-ops workflow notes.\n\nWhen fetching a job posting, always require a canonical public job URL (not a LinkedIn feed/personalized URL). If the page is a JavaScript SPA (Ashby, Meta, Unconventional AI, Airtable forms), try the underlying GraphQL/API endpoint or a web search first, and only then ask the user to paste the JD text.
-Add under a ## Tracker Hygiene section.\n\nBefore creating a new evaluation file or tracker entry, check whether the role is already tracked (search the tracker by company/title) to avoid duplicate reports and overwritten entries.
-Add under a ## Evaluation Scoring section.\n\nScore fit using the user's strongest research resume PDF, not cv.md, and interpret role scope broadly (e.g., 'structured/relational', not just 'tabular') before assigning a score.
-Add under a ## Tracker Hygiene / Concurrency section.\n\nNever run parallel Bash calls that read or mutate the tracker/TSV concurrently; perform tracker reads and merges sequentially and validate tab separators after each write.
+## Job Posting Fetching
+When fetching a job posting, always require a canonical public job URL (not a LinkedIn feed/personalized URL). If the page is a JavaScript SPA (Ashby, Meta, Unconventional AI, Airtable forms), try the underlying GraphQL/API endpoint or a web search first, and only then ask the user to paste the JD text.
+
+## Evaluation Scoring section.
+Score fit using the user's strongest research resume PDF, not cv.md, and interpret role scope broadly (e.g., 'structured/relational', not just 'tabular') before assigning a score.
+
+## Tracker Hygiene / Concurrency 
+- Never run parallel Bash calls that read or mutate the tracker/TSV concurrently; perform tracker reads and merges sequentially and validate tab separators after each write.
+- Before creating a new evaluation file or tracker entry, check whether the role is already tracked (search the tracker by company/title) to avoid duplicate reports and overwritten entries.
+
+## CV / Document Generation 
+When generating or updating CVs/resumes, ALWAYS regenerate the PDF after editing source content — do not stop at the source files.
+
+## Accuracy & Verification
+Verify factual claims against source papers before writing them into CVs, evaluations, or answers — never add framing like 'RL' or 'LLM' to a project unless confirmed by the actual paper (e.g., FALCON was misattributed twice).
+
+## Profile / Personal Details section
+Profile constants: GitHub handle and personal links must use the verified canonical values — double-check before writing them into any document (a wrong handle 'Oxfordblue7' leaked into 3 places).

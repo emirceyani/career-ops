@@ -47,9 +47,9 @@
 - **Authors:** A. Mehradfar, X. Zhao, Y. Huang, **E. Ceyani**, Y. Yang, S. Han, H. Aghasi, S. Avestimehr
 - **Venue:** *NeurIPS 2025* (Main Track)
 - **URL:** https://arxiv.org/abs/2505.21923
-- **Tags:** `ai4science` `circuit-design` `analog-rf` `llm` `graph-neural-networks` `agentic-ai`
-- **Contribution:** End-to-end ML framework combining GNNs and LLMs to automate analog circuit topology selection and layout optimization.
-- **Best for JDs mentioning:** AI for science/engineering, circuit design, EDA automation, LLM agents, GNNs, agentic AI, automated design, hardware AI
+- **Tags:** `ai4science` `circuit-design` `analog-rf` `graph-neural-networks` `differentiable-optimization`
+- **Contribution:** End-to-end ML framework using an edge-centric GNN performance predictor and gradient-based optimization to automate analog circuit topology selection and layout-constrained parameter design (under 1s per design).
+- **Best for JDs mentioning:** AI for science/engineering, circuit design, EDA automation, GNNs, differentiable optimization, automated design, hardware AI
 
 ---
 
@@ -57,10 +57,10 @@
 
 - **Authors:** **E. Ceyani**, H. Xie, B. Buyukates, C. Yang, **S. Avestimehr**
 - **Venue:** *SIAM International Conference on Data Mining (SDM'25)*, 2025 (oral, acceptance rate 26.7%)
-- **URL:** (proceedings link pending)
-- **Tags:** `federated-learning` `graph-neural-networks` `personalization` `privacy` `distributed-learning`
-- **Contribution:** Adaptive neighbor sampling for subgraph federated GNN training; personalized local models with privacy guarantees across silos.
-- **Best for JDs mentioning:** federated learning, graph neural networks, personalization, distributed ML, privacy-preserving learning, subgraph methods
+- **URL:** https://arxiv.org/abs/2501.12592
+- **Tags:** `federated-learning` `graph-neural-networks` `gflownets` `reinforcement-learning` `personalization` `privacy` `distributed-learning`
+- **Contribution:** Uses GFlowNets for layer-wise node-importance estimation to adapt GNN message passing in personalized subgraph federated learning, handling missing links and subgraph heterogeneity across clients.
+- **Best for JDs mentioning:** federated learning, graph neural networks, GFlowNets, reinforcement learning, personalization, distributed ML, privacy-preserving learning, subgraph methods
 
 ---
 

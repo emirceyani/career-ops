@@ -19,6 +19,24 @@ This file accumulates your best interview stories over time. Each evaluation (Bl
 **S / T / A / R / Reflection / Best for questions about:**
 -->
 
+### [Build & Ship] FALCON — End-to-End Analog Circuit Design in < 1s
+**Source:** Report #071 — Zillow — Principal MLE, Agentic AI
+**S (Situation):** Analog circuit design requires weeks of expert labor — topology selection, parameter tuning, layout constraint satisfaction.
+**T (Task):** Automate the full pipeline end-to-end with no manual tuning, from topology to production-ready parameters.
+**A (Action):** Built an edge-centric GNN to predict circuit performance from topology + parameters; connected it to gradient-based parameter optimization under differentiable layout constraints.
+**R (Result):** < 1 second per design, full automation. Published in NeurIPS 2025. Qualcomm Innovation Fellowship finalist.
+**Reflection:** Moving fast without sacrificing correctness requires building the right abstraction layer first — not just iterating on a broken one. The system works because the GNN model and the optimizer share the same differentiable substrate; speed is a property of the architecture, not of cutting corners.
+**Best for questions about:** build-and-ship culture, research-to-production, end-to-end system design, automation, NeurIPS publication.
+
+### [Mentorship / Benchmark] FedGraphNN — Teaching by Building
+**Source:** Report #071 — Zillow — Principal MLE, Agentic AI
+**S (Situation):** No standardized benchmark existed for federated GNN research, making results impossible to compare across papers.
+**T (Task):** Co-build the first federated GNN benchmark while mentoring junior collaborators through the process.
+**A (Action):** Designed 36 datasets × 7 GNN architectures × 9 FL algorithms; built open-source platform with MLOps support; published at ICLR-DPML + MLSys-GNNSys 2021.
+**R (Result):** Widely cited; platform adopted by the community.
+**Reflection:** Teaching by building forces collaborators to think about experimental protocol design, not just model tuning. The benchmark is a mentorship artifact — it enforces rigor on everyone who uses it.
+**Best for questions about:** mentorship, technical leadership, open-source impact, cross-team collaboration, research infrastructure.
+
 ### [RL / Diversity] Diversity-Seeking RL for Diffusion Models
 **Source:** Report #056 — Vmax — MTS, RL Algorithms
 **S (Situation):** Mode collapse is a known failure mode in generative RL reward design — models converge to a narrow mode of the output distribution rather than exploring it.
